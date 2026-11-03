@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   contrastRatio,
   formatRatio,
+  grade,
   parseHex,
   relativeLuminance,
   suggestForeground,
@@ -103,5 +104,15 @@ describe('suggestForeground', () => {
     const fixed = suggestForeground(start, BLACK, 4.5)
     expect(fixed).not.toBeNull()
     expect(contrastRatio(fixed!, BLACK)).toBeGreaterThanOrEqual(4.5)
+  })
+})
+
+describe('grade', () => {
+  it('returns the strongest WCAG grade for a ratio', () => {
+    expect(grade(contrastRatio(BLACK, WHITE))).toBe('AAA') // 21:1
+    expect(grade(7)).toBe('AAA')
+    expect(grade(4.5)).toBe('AA')
+    expect(grade(3)).toBe('AA Large')
+    expect(grade(2.9)).toBe('Fail')
   })
 })

@@ -83,6 +83,19 @@ export function wcag(a: Rgb, b: Rgb): WcagResult {
   }
 }
 
+export type WcagGrade = 'AAA' | 'AA' | 'AA Large' | 'Fail'
+
+/**
+ * The strongest WCAG grade a ratio earns for text: `AAA` (>= 7), `AA` (>= 4.5),
+ * `AA Large` (>= 3, large/bold text only) or `Fail`. Handy as a single badge.
+ */
+export function grade(ratio: number): WcagGrade {
+  if (ratio >= 7) return 'AAA'
+  if (ratio >= 4.5) return 'AA'
+  if (ratio >= 3) return 'AA Large'
+  return 'Fail'
+}
+
 /** Round a ratio to two decimals for display, e.g. 4.5 -> "4.50". */
 export function formatRatio(ratio: number): string {
   return `${ratio.toFixed(2)}:1`
